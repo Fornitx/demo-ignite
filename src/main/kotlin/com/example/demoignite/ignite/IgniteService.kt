@@ -21,6 +21,12 @@ class IgniteService(
         clientCache = igniteClient.getOrCreateCache<String, String>(properties.cacheName)
     }
 
+    fun get(key: String): String? {
+        val value = clientCache!!.get(key)
+        log.info("got by key '{}' value '{}'", key, value)
+        return value
+    }
+
     suspend fun getAsync(key: String): String? {
         val value = clientCache!!.getAsync(key).await()
         log.info("got by key '{}' value '{}'", key, value)
