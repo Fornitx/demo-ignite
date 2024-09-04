@@ -3,7 +3,9 @@ package com.example.demoignite.ignite
 import com.example.demoignite.properties.IgniteProperties
 import org.apache.ignite.client.IgniteClient
 import org.springframework.boot.actuate.health.Health
-import org.springframework.boot.actuate.health.HealthIndicator
+import org.springframework.boot.actuate.health.ReactiveHealthIndicator
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 private val HEALTH_UP = Health.up().build()
 private val HEALTH_DOWN = Health.down().build()
@@ -11,14 +13,10 @@ private val HEALTH_DOWN = Health.down().build()
 class IgniteHealthIndicator(
     private val properties: IgniteProperties,
     private val igniteClient: IgniteClient,
-) : HealthIndicator {
-    override fun health(): Health {
-        try {
-            igniteClient.getOrCreateCache<String, String>(properties.cacheName)
-        } catch (ex: Exception) {
-            return HEALTH_DOWN
-        }
-
-        return HEALTH_UP
-    }
+) : ReactiveHealthIndicator {
+    override fun health(): Mono<Health> = igniteClient.getOrCreateCacheAsync<String, String>(properties.cacheName)
+        .toCompletableFuture()
+        .toMono()
+        .map { HEALTH_UP }
+        .onErrorReturn(HEALTH_DOWN)
 }

@@ -5,7 +5,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.ignite.IgniteClientSpringBean
 import org.apache.ignite.client.IgniteClient
 import org.apache.ignite.configuration.ClientConfiguration
-import org.springframework.boot.actuate.health.HealthIndicator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -25,7 +24,7 @@ class IgniteConfig(private val properties: DemoProperties) {
     }
 
     @Bean
-    fun igniteHealthIndicator(igniteClient: IgniteClient): HealthIndicator =
+    fun igniteHealthIndicator(igniteClient: IgniteClient): IgniteHealthIndicator =
         IgniteHealthIndicator(properties.ignite, igniteClient)
 
     @Bean

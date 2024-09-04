@@ -4,7 +4,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class DemoService {
-    suspend fun call(): String {
-        return "123"
-    }
+    suspend fun call(): String = "123"
 }

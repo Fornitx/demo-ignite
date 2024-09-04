@@ -15,4 +15,9 @@ class IgniteTest : AbstractIgniteTest() {
     fun test() {
         println(igniteClient.cacheNames())
     }
+
+    @Test
+    fun test2() {
+        println(igniteClient.cacheNames())
+    }
 }
