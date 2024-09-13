@@ -12,10 +12,12 @@ class IgniteHealthIndicator(
 ) : ReactiveHealthIndicator {
     private val cacheName = properties.cacheName
 
-    private val healthUp = Health.up().withDetail("cacheName", cacheName).build()
-    private val healthDown = Health.down().withDetail("cacheName", cacheName).build()
+    private val healthUp = Health.up().withCacheName(cacheName).build()
+    private val healthDown = Health.down().withCacheName(cacheName).build()
 
     override fun health(): Mono<Health> = Mono.fromCompletionStage {
         igniteClient.getOrCreateCacheAsync<String, String>(cacheName)
     }.map { healthUp }.onErrorReturn(healthDown)
+
+    private fun Health.Builder.withCacheName(name: String): Health.Builder = this.withDetail("cacheName", name)
 }
