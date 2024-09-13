@@ -5,18 +5,17 @@ import org.apache.ignite.client.IgniteClient
 import org.springframework.boot.actuate.health.Health
 import org.springframework.boot.actuate.health.ReactiveHealthIndicator
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
-
-private val HEALTH_UP = Health.up().build()
-private val HEALTH_DOWN = Health.down().build()
 
 class IgniteHealthIndicator(
-    private val properties: IgniteProperties,
+    properties: IgniteProperties,
     private val igniteClient: IgniteClient,
 ) : ReactiveHealthIndicator {
-    override fun health(): Mono<Health> = igniteClient.getOrCreateCacheAsync<String, String>(properties.cacheName)
-        .toCompletableFuture()
-        .toMono()
-        .map { HEALTH_UP }
-        .onErrorReturn(HEALTH_DOWN)
+    private val cacheName = properties.cacheName
+
+    private val healthUp = Health.up().withDetail("cacheName", cacheName).build()
+    private val healthDown = Health.down().withDetail("cacheName", cacheName).build()
+
+    override fun health(): Mono<Health> = Mono.fromCompletionStage {
+        igniteClient.getOrCreateCacheAsync<String, String>(cacheName)
+    }.map { healthUp }.onErrorReturn(healthDown)
 }
