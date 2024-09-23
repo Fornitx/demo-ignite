@@ -1,4 +1,4 @@
-package com.example.demoignite
+package com.example.demoignite.ignite
 
 import com.example.demoignite.base.AbstractIgniteTest
 import org.apache.ignite.client.IgniteClient
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class IgniteTest : AbstractIgniteTest() {
+class CacheNamesTest : AbstractIgniteTest() {
     @Autowired
     private lateinit var igniteClient: IgniteClient
 

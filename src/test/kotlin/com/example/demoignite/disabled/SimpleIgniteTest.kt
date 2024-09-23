@@ -1,4 +1,4 @@
-package com.example.demoignite
+package com.example.demoignite.disabled
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.ignite.Ignition

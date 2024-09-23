@@ -1,4 +1,4 @@
-package com.example.demoignite
+package com.example.demoignite.disabled
 
 import com.example.demoignite.base.AbstractIgniteTest
 import org.junit.jupiter.api.Disabled

@@ -31,12 +31,18 @@ dependencies {
         exclude(group = "commons-logging", module = "commons-logging")
     }
 
+    implementation("org.apache.commons:commons-lang3")
+
     implementation("io.github.oshai:kotlin-logging-jvm:" + System.getProperty("kotlin_logging_version"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+
     testImplementation("io.projectreactor:reactor-test")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+
     testImplementation("org.testcontainers:junit-jupiter")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -44,7 +50,11 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll(
+            "-Xjsr305=strict",
+            "-opt-in=kotlin.ExperimentalStdlibApi",
+            "-opt-in=kotlin.io.encoding.ExperimentalEncodingApi"
+        )
     }
 }
 
