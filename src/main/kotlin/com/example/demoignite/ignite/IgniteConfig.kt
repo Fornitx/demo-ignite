@@ -13,7 +13,7 @@ private val log = KotlinLogging.logger {}
 @Configuration
 class IgniteConfig(private val properties: DemoProperties) {
     @Bean
-    fun igniteClient(): IgniteClient {
+    fun igniteClient(): IgniteClientSpringBean {
         val addresses = properties.ignite.addresses
         val cfg = ClientConfiguration()
             .setAddresses(*addresses.toTypedArray())
@@ -24,7 +24,7 @@ class IgniteConfig(private val properties: DemoProperties) {
     }
 
     @Bean
-    fun igniteHealthIndicator(igniteClient: IgniteClient): IgniteHealthIndicator =
+    fun igniteHealthIndicator(igniteClient: IgniteClientSpringBean): IgniteHealthIndicator =
         IgniteHealthIndicator(properties.ignite, igniteClient)
 
     @Bean
