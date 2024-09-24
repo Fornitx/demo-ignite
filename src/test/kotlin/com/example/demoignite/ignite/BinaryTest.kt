@@ -1,12 +1,12 @@
 package com.example.demoignite.ignite
 
 import com.example.demoignite.base.AbstractIgniteTest
+import com.example.demoignite.utils.toBase64
 import org.apache.ignite.client.IgniteClient
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import kotlin.io.encoding.Base64
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
 import kotlin.test.assertNull
@@ -23,9 +23,9 @@ class BinaryTest : AbstractIgniteTest() {
         val key = Random.nextBytes(16)
         val value = Random.nextBytes(128)
         log.info { "key = ${key.toHexString()}" }
-        log.info { "key = ${Base64.encode(key)}" }
+        log.info { "key = ${key.toBase64()}" }
         log.info { "value = ${value.toHexString()}" }
-        log.info { "value = ${Base64.encode(value)}" }
+        log.info { "value = ${value.toBase64()}" }
 
         cache.put(key, value)
 
