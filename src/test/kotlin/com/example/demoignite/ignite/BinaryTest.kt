@@ -2,10 +2,8 @@ package com.example.demoignite.ignite
 
 import com.example.demoignite.base.AbstractIgniteTest
 import com.example.demoignite.utils.toBase64
-import org.apache.ignite.client.IgniteClient
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
@@ -13,12 +11,9 @@ import kotlin.test.assertNull
 
 @SpringBootTest
 class BinaryTest : AbstractIgniteTest() {
-    @Autowired
-    private lateinit var client: IgniteClient
-
     @Test
     fun test() {
-        val cache = client.getOrCreateCache<ByteArray, ByteArray>("binaryCacheName")
+        val cache = igniteClient.getOrCreateCache<ByteArray, ByteArray>("binaryCacheName")
 
         val key = Random.nextBytes(16)
         val value = Random.nextBytes(128)

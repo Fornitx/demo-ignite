@@ -13,7 +13,16 @@ class IgniteContainer(dockerImageName: String) : GenericContainer<IgniteContaine
             createContainerCmd.hostConfig!!.withPortBindings(
                 PortBinding(
                     Ports.Binding.bindPort(0), ExposedPort(10800)
-                )
+                ),
+//                PortBinding(
+//                    Ports.Binding.bindPort(0), ExposedPort(11211)
+//                ),
+//                PortBinding(
+//                    Ports.Binding.bindPort(0), ExposedPort(47100)
+//                ),
+//                PortBinding(
+//                    Ports.Binding.bindPort(0), ExposedPort(47500)
+//                ),
             )
         }
     }
