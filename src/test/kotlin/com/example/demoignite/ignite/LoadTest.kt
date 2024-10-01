@@ -1,7 +1,6 @@
 package com.example.demoignite.ignite
 
 import com.example.demoignite.base.AbstractIgniteTest
-import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -18,7 +17,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 private const val count = 100
-private val log = KotlinLogging.logger {}
 
 @SpringBootTest
 class LoadTest : AbstractIgniteTest() {
