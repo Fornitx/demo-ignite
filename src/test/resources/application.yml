@@ -30,9 +30,10 @@ management:
     process:
       enabled: true
 
-logging:
-  pattern:
-    dateformat: HH:mm:ss.SSS
+spring:
+  output:
+    ansi:
+      enabled: always
 
 demo:
   ignite:
