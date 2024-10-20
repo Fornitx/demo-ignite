@@ -1,8 +1,8 @@
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
+    kotlin("jvm") version System.getProperty("kotlinVersion")
+    kotlin("plugin.spring") version System.getProperty("kotlinVersion")
+    id("org.springframework.boot") version System.getProperty("springVersion")
+    id("io.spring.dependency-management") version System.getProperty("springDmVersion")
 }
 
 group = "com.example"
@@ -14,7 +14,7 @@ java {
     }
 }
 
-ext["kotlin-coroutines.version"] = System.getProperty("kotlin_coroutines_version")
+ext["kotlin-coroutines.version"] = System.getProperty("kotlinCoroutinesVersion")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -33,7 +33,7 @@ dependencies {
 
     implementation("org.apache.commons:commons-lang3")
 
-    implementation("io.github.oshai:kotlin-logging-jvm:" + System.getProperty("kotlin_logging_version"))
+    implementation("io.github.oshai:kotlin-logging-jvm:" + System.getProperty("kotlinLoggingVersion"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
