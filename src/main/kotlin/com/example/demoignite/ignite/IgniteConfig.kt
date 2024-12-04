@@ -5,6 +5,7 @@ import com.example.demoignite.properties.PREFIX
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.ignite.IgniteClientSpringBean
 import org.apache.ignite.client.IgniteClient
+import org.apache.ignite.client.events.*
 import org.apache.ignite.configuration.ClientConfiguration
 import org.springframework.boot.actuate.health.ReactiveHealthIndicator
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -20,10 +21,32 @@ class IgniteConfig(private val properties: DemoProperties) {
     fun igniteClient(): IgniteClientSpringBean {
         val addresses = properties.ignite.addresses
         val cfg = ClientConfiguration()
+            .setEventListeners(object : ConnectionEventListener {
+                override fun onHandshakeStart(event: HandshakeStartEvent?) {
+                    log.info { "onHandshakeStart $event" }
+                    super.onHandshakeStart(event)
+                }
+
+                override fun onHandshakeSuccess(event: HandshakeSuccessEvent?) {
+                    log.info { "onHandshakeSuccess $event" }
+                    super.onHandshakeSuccess(event)
+                }
+
+                override fun onHandshakeFail(event: HandshakeFailEvent?) {
+                    log.info { "onHandshakeFail $event" }
+                    super.onHandshakeFail(event)
+                }
+
+                override fun onConnectionClosed(event: ConnectionClosedEvent?) {
+                    log.info { "onConnectionClosed $event" }
+                    super.onConnectionClosed(event)
+                }
+            })
             .setAddresses(*addresses.toTypedArray())
-            .setTimeout(2000)
-            .setClusterDiscoveryEnabled(false)
-        log.info("Ignite client created for {}", addresses)
+            .setReconnectThrottlingPeriod(3000L)
+            .setReconnectThrottlingRetries(2)
+//            .setClusterDiscoveryEnabled(false)
+        log.info { "Ignite client created for $addresses" }
         return IgniteClientSpringBean().setClientConfiguration(cfg)
     }
 

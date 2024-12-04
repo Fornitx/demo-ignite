@@ -1,9 +1,4 @@
 management:
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: '*'
   endpoint:
     configprops:
       show-values: always
@@ -17,9 +12,11 @@ management:
         liveness:
           include: livenessState
         readiness:
-          include: readinessState, ignite
-    shutdown:
-      enabled: true
+          include: readinessState #, ignite
+  endpoints:
+    web:
+      exposure:
+        include: '*'
   info:
     env:
       enabled: true
@@ -28,6 +25,8 @@ management:
     os:
       enabled: true
     process:
+      enabled: true
+    ssl:
       enabled: true
 
 spring:
