@@ -15,7 +15,7 @@ object TestcontainersHelper {
 
         System.setProperty("TC_IGNITE", container.port)
 
-        log.info("Ignite container '{}' started on port {}", dockerImageName, container.port)
+        log.info { "Ignite container '$dockerImageName' started on port ${container.port}" }
 
         container
     }

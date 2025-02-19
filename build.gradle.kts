@@ -35,6 +35,10 @@ dependencies {
 
     implementation("io.github.oshai:kotlin-logging-jvm:" + providers.gradleProperty("kotlin-logging.version").get())
 
+    val arrowKtVersion = "2.0.1"
+    implementation("io.arrow-kt:arrow-core:$arrowKtVersion")
+    implementation("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
@@ -46,6 +50,17 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("junit:junit"))
+            .using(module("io.quarkus:quarkus-junit4-mock:3.18.0"))
+            .because(
+                "We don't want JUnit 4; but is an unneeded transitive of testcontainers. " +
+                    "See https://github.com/testcontainers/testcontainers-java/issues/970"
+            )
+    }
 }
 
 kotlin {

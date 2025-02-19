@@ -5,8 +5,11 @@ import com.example.demoignite.properties.PREFIX
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.ignite.IgniteClientSpringBean
 import org.apache.ignite.client.IgniteClient
-import org.apache.ignite.client.events.*
-import org.apache.ignite.configuration.ClientConfiguration
+import org.apache.ignite.client.events.ConnectionClosedEvent
+import org.apache.ignite.client.events.ConnectionEventListener
+import org.apache.ignite.client.events.HandshakeFailEvent
+import org.apache.ignite.client.events.HandshakeStartEvent
+import org.apache.ignite.client.events.HandshakeSuccessEvent
 import org.springframework.boot.actuate.health.ReactiveHealthIndicator
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
@@ -19,8 +22,7 @@ class IgniteConfig(private val properties: DemoProperties) {
     @ConditionalOnProperty("$PREFIX.ignite.enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     fun igniteClient(): IgniteClientSpringBean {
-        val addresses = properties.ignite.addresses
-        val cfg = ClientConfiguration()
+        val cfg = properties.ignite.clientConfiguration
             .setEventListeners(object : ConnectionEventListener {
                 override fun onHandshakeStart(event: HandshakeStartEvent?) {
                     log.info { "onHandshakeStart $event" }
@@ -42,11 +44,7 @@ class IgniteConfig(private val properties: DemoProperties) {
                     super.onConnectionClosed(event)
                 }
             })
-            .setAddresses(*addresses.toTypedArray())
-            .setReconnectThrottlingPeriod(3000L)
-            .setReconnectThrottlingRetries(2)
-//            .setClusterDiscoveryEnabled(false)
-        log.info { "Ignite client created for $addresses" }
+        log.info { "Ignite client created for ${cfg.addresses}" }
         return IgniteClientSpringBean().setClientConfiguration(cfg)
     }
 

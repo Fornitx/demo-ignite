@@ -36,6 +36,9 @@ spring:
 
 demo:
   ignite:
-    addresses: [ "127.0.0.1:${TC_IGNITE}" ]
+    enabled: true
+    client-configuration:
+      addresses: [ "127.0.0.1:${TC_IGNITE}" ]
+      cluster-discovery-enabled: false
     cache-name: testCacheName
     health-enabled: true
