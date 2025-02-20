@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
-    implementation("org.apache.ignite:ignite-spring:2.16.0") {
+    implementation("org.apache.ignite:ignite-spring:2.17.0") {
         exclude(group = "commons-logging", module = "commons-logging")
     }
 
