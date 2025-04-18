@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
-import kotlin.test.assertNull
+import kotlin.test.assertFalse
 
 @SpringBootTest
 class BinaryTest : AbstractIgniteTest() {
@@ -29,6 +29,6 @@ class BinaryTest : AbstractIgniteTest() {
 
         cache.remove(key)
 
-        assertNull(cache.get(key))
+        assertFalse(cache.containsKey(key))
     }
 }

@@ -16,6 +16,8 @@ java {
 
 ext["kotlin-coroutines.version"] = providers.gradleProperty("kotlin-coroutines.version").get()
 
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -50,6 +52,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 }
 
 configurations.all {
@@ -58,23 +62,22 @@ configurations.all {
             .using(module("io.quarkus:quarkus-junit4-mock:3.21.0"))
             .because(
                 "We don't want JUnit 4; but is an unneeded transitive of testcontainers. " +
-                    "See https://github.com/testcontainers/testcontainers-java/issues/970"
+                        "See https://github.com/testcontainers/testcontainers-java/issues/970"
             )
     }
 }
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll(
-            "-Xjsr305=strict",
-            "-opt-in=kotlin.ExperimentalStdlibApi",
-            "-opt-in=kotlin.io.encoding.ExperimentalEncodingApi"
-        )
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        optIn.addAll("kotlin.ExperimentalStdlibApi")
     }
 }
 
 tasks.withType<Test> {
+    useJUnitPlatform()
     jvmArgs(
+        "-javaagent:${mockitoAgent.asPath}",
         "--add-opens=java.base/jdk.internal.access=ALL-UNNAMED",
         "--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED",
         "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
@@ -100,7 +103,6 @@ tasks.withType<Test> {
         "--add-opens=java.management/sun.management=ALL-UNNAMED",
         "--add-opens=java.desktop/java.awt.font=ALL-UNNAMED",
     )
-    useJUnitPlatform()
 }
 
 tasks.jar {

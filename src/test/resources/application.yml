@@ -34,6 +34,10 @@ spring:
     ansi:
       enabled: always
 
+logging:
+  pattern:
+    dateformat: HH:mm:ss.SSS
+
 demo:
   ignite:
     enabled: true

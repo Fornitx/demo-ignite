@@ -29,7 +29,6 @@ class DemoPropertiesTest : AbstractContextTest() {
     fun success_disableHealth() = contextRunner()
         .withPropertyValues("$PREFIX.ignite.healthEnabled=false")
         .runLogging { context ->
-            // TODO fail
             assertThat(context).hasNotFailed()
                 .hasSingleBean(IgniteClient::class.java)
                 .doesNotHaveBean(IgniteHealthIndicator::class.java)
@@ -40,7 +39,6 @@ class DemoPropertiesTest : AbstractContextTest() {
     fun success_disableAll() = contextRunner()
         .withPropertyValues("$PREFIX.ignite.enabled=false", "$PREFIX.ignite.healthEnabled=false")
         .runLogging { context ->
-            // TODO fail
             assertThat(context).hasNotFailed()
                 .doesNotHaveBean(IgniteClient::class.java)
                 .doesNotHaveBean(IgniteHealthIndicator::class.java)

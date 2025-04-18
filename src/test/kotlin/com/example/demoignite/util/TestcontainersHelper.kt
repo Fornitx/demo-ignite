@@ -8,15 +8,5 @@ private val log = KotlinLogging.logger {}
 object TestcontainersHelper {
     private val testcontainersConfiguration = TestcontainersConfiguration.getInstance()
 
-    val IGNITE_CONTAINER by lazy {
-        val dockerImageName = testcontainersConfiguration.getEnvVarOrProperty("ignite.container.image", null)
-        val container = IgniteContainer(dockerImageName)
-        container.start()
-
-        System.setProperty("TC_IGNITE", container.port)
-
-        log.info { "Ignite container '$dockerImageName' started on port ${container.port}" }
-
-        container
-    }
+    val IGNITE_CONTAINER_IMAGE = testcontainersConfiguration.getEnvVarOrProperty("ignite.container.image", null)
 }

@@ -1,9 +1,10 @@
 package com.example.demoignite.base
 
 import com.example.demoignite.ignite.IgniteService
-import com.example.demoignite.util.TestcontainersHelper
+import com.example.demoignite.util.IgniteContainer
 import org.apache.ignite.client.IgniteClient
 import org.springframework.beans.factory.annotation.Autowired
+import org.testcontainers.lifecycle.Startables
 
 abstract class AbstractIgniteTest : AbstractTest() {
     @Autowired
@@ -14,6 +15,10 @@ abstract class AbstractIgniteTest : AbstractTest() {
 
     companion object {
         @JvmStatic
-        protected val igniteContainer = TestcontainersHelper.IGNITE_CONTAINER
+        protected val igniteContainer = IgniteContainer
+
+        init {
+            Startables.deepStart(igniteContainer).join()
+        }
     }
 }

@@ -14,16 +14,13 @@ class IgniteHealthIndicator(
     private val healthUp = Health.up().withCacheName(cacheName).build()
     private val healthDown = Health.down().withCacheName(cacheName).build()
 
-    override fun health(): Mono<Health> {
-        return if (igniteClient.isRunning) {
-            Mono.fromCompletionStage {
-                igniteClient.getOrCreateCacheAsync<Any, Any>(cacheName)
-            }.thenReturn(healthUp).onErrorReturn(healthDown)
-        } else {
-            Mono.just(healthUnknown)
-        }
+    override fun health(): Mono<Health> = if (igniteClient.isRunning) {
+        Mono.fromCompletionStage {
+            igniteClient.getOrCreateCacheAsync<Any, Any>(cacheName)
+        }.thenReturn(healthUp).onErrorReturn(healthDown)
+    } else {
+        Mono.just(healthUnknown)
     }
-
 }
 
 class DisabledIgniteHealthIndicator(cacheName: String) : ReactiveHealthIndicator {

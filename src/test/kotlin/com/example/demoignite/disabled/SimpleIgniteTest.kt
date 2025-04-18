@@ -3,11 +3,12 @@ package com.example.demoignite.disabled
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.ignite.Ignition
 import org.apache.ignite.configuration.ClientConfiguration
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 private val log = KotlinLogging.logger {}
 
-//@Disabled
+@Disabled
 class SimpleIgniteTest {
     @Test
     fun test() {
