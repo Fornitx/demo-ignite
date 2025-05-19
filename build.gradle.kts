@@ -37,7 +37,7 @@ dependencies {
 
     implementation("io.github.oshai:kotlin-logging-jvm:" + providers.gradleProperty("kotlin-logging.version").get())
 
-    val arrowKtVersion = "2.1.1"
+    val arrowKtVersion = "2.1.2"
     implementation("io.arrow-kt:arrow-core:$arrowKtVersion")
     implementation("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
 
